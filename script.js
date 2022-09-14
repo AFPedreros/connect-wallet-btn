@@ -1,4 +1,5 @@
 const walletBtn = document.getElementById("wallet-btn")
+const circle = document.createElement("span")
 let localAccount = []
 
 const main = async () => {
@@ -10,9 +11,6 @@ const main = async () => {
 
         const xInside = x - buttonLeft
         const yInside = y - buttonTop
-
-        const circle = document.createElement("span")
-        circle.classList.add("circle")
 
         circle.style.top = yInside + "px"
         circle.style.left = xInside + "px"
@@ -33,7 +31,7 @@ const main = async () => {
             })
 
             localAccount = accounts[0]
-            isWalletConnected()
+            window.location.reload()
         } catch (error) {
             console.log(error)
         }
@@ -52,12 +50,7 @@ const main = async () => {
                 test()
             })
         } else {
-            walletBtn.innerText = "Connect Wallet"
-            walletBtn.addEventListener("click", (e) => {
-                console.log("Clicked")
-                animationEffect(e)
-                connectWallet()
-            })
+            isWalletConnected()
         }
     }
 
@@ -70,21 +63,33 @@ const main = async () => {
             const { ethereum } = window
 
             const accounts = await ethereum.request({ method: "eth_accounts" })
-            console.log("accounts: ", accounts)
 
             if (accounts.length > 0) {
                 const account = accounts[0]
-                console.log("wallet is connected! " + account)
-                walletBtn.innerText = "Mint NFT"
+                circle.classList.add("dark-circle")
+                walletBtn.style.backgroundColor = "white"
+                walletBtn.style.borderColor = "white"
+                walletBtn.style.color = "purple"
+                walletBtn.innerText = `${account.substr(
+                    0,
+                    6
+                )}...${account.substr(account.length - 4)}`
+                walletBtn.addEventListener("click", (e) => {
+                    animationEffect(e)
+                })
             } else {
-                console.log("make sure MetaMask is connected")
+                circle.classList.add("circle")
+                walletBtn.innerText = "Connect Wallet"
+                walletBtn.addEventListener("click", (e) => {
+                    animationEffect(e)
+                    connectWallet()
+                })
             }
         } catch (error) {
             console.log("error: ", error)
         }
     }
 
-    isWalletConnected()
     MetaMaskClientCheck()
 }
 
