@@ -1,18 +1,35 @@
+import MetaMaskOnboarding from "@metamask/onboarding"
+
+const forwarderOrigin = "http://localhost:1234/"
 const walletBtn = document.getElementById("wallet-btn")
 const circle = document.createElement("span")
 let localAccount = []
 
 const main = async () => {
-    const MetaMaskClientCheck = () => {
-        if (!isMetaMaskInstalled()) {
-            walletBtn.innerText = "Click here to install MetaMask!"
-            walletBtn.addEventListener("click", (e) => {
-                animationEffect(e)
-                test()
-            })
-        } else {
+    const onboarding = new MetaMaskOnboarding({ forwarderOrigin })
+
+    const MetaMaskClientCheck = async () => {
+        if (isMetaMaskInstalled()) {
             isWalletConnected()
+        } else {
+            isWalletNotInstall()
         }
+    }
+
+    const isWalletNotInstall = async () => {
+        walletBtn.innerText = "Click here to install MetaMask!"
+        walletBtn.addEventListener("click", (e) => {
+            circle.classList.add("circle")
+            animationEffect(e)
+            setTimeout(function () {
+                console.log("Clicked")
+                onClickInstall()
+            }, 800)
+        })
+    }
+
+    const onClickInstall = () => {
+        onboarding.startOnboarding()
     }
 
     const isWalletConnected = async () => {
@@ -67,10 +84,6 @@ const main = async () => {
         }
     }
 
-    const test = () => {
-        console.log("hello")
-    }
-
     const animationEffect = (e) => {
         const x = e.clientX
         const y = e.clientY
@@ -94,4 +107,3 @@ const main = async () => {
 }
 
 main()
-window.addEventListener("DOMContentLoaded", main)
