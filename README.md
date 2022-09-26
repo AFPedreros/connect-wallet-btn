@@ -1,1 +1,1 @@
-The best button to connect your Metamask wallet
+The best button to connect your Metamask wallet.
