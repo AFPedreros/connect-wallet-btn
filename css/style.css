@@ -12,7 +12,7 @@ body {
     justify-content: center;
     height: 100vh;
     overflow: hidden;
-    background-color: black;
+    background-color: darkgrey;
 }
 
 button {
