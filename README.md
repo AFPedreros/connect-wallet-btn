@@ -1,1 +1,1 @@
-A cool button for connectiing your metamask wallet
+The best button to connect your Metamask wallet
